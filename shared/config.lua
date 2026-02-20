@@ -1,6 +1,6 @@
 Config = {}
 
-Config.ResourceName = 'shieldx'
+Config.ResourceName = GetCurrentResourceName() or 'shieldx'
 Config.Locale = 'fr'
 
 Config.Permissions = {

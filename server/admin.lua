@@ -1,9 +1,18 @@
 local function isStaff(src)
-    local exp = exports[Config.ResourceName]
-    if exp and exp.IsStaff then
-        return exp:IsStaff(src)
+    if IsPlayerAceAllowed(src, Config.Permissions.aceGroup) then
+        return true
     end
-    return IsPlayerAceAllowed(src, Config.Permissions.aceGroup)
+
+    local identifiers = GetPlayerIdentifiers(src)
+    for _, identifier in ipairs(identifiers) do
+        for _, staffIdentifier in ipairs(Config.StaffIdentifiers) do
+            if identifier == staffIdentifier then
+                return true
+            end
+        end
+    end
+
+    return false
 end
 
 local function notify(src, msg)
