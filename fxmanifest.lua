@@ -3,19 +3,22 @@ game 'gta5'
 lua54 'yes'
 
 author 'byTekaz + Codex'
-description 'ShieldX - Anticheat + Staff management menu'
-version '1.0.0'
+description 'ShieldX + PulseLite RP (core economy/jobs/hud/inventory)'
+version '2.0.0'
 
 shared_scripts {
-    'shared/config.lua'
+    'shared/config.lua',
+    'shared/rp_config.lua'
 }
 
 client_scripts {
     'client/anticheat.lua',
-    'client/menu.lua'
+    'client/menu.lua',
+    'client/rp_core.lua'
 }
 
 server_scripts {
     'server/anticheat.lua',
-    'server/admin.lua'
+    'server/admin.lua',
+    'server/rp_core.lua'
 }

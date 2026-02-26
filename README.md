@@ -1,45 +1,46 @@
-# ShieldX - Anticheat FiveM (base complète)
+# ShieldX + PulseLite RP (FiveM)
 
-> Ressource FiveM orientée protection serveur + menu staff in-game.
+> Base RP légère et optimisée, inspirée des serveurs citylife modernes (économie + jobs + besoins + inventaire), combinée à l'anticheat ShieldX.
 
-## Fonctionnalités incluses
+## ⚠️ Important
+Cette base est **inspirée** du gameplay RP populaire, mais ne copie pas de code propriétaire externe.
 
-### Anticheat (client + server)
-- Détection godmode, invisibilité, super jump, speedhack, téléport suspecte.
-- Détection de blacklists d'armes, véhicules, peds, explosions.
-- Limitation du spam d'events/trigger.
-- Détection vision thermique/nocturne forcée.
-- Détection modification anormale des dégâts et munitions.
-- Logging Discord webhook pour violations + actions staff.
-- Sanction automatique (DropPlayer) configurable.
+## Modules inclus
 
-### Menu staff in-game
-- Ouvrir via `F10` (ou commande `/shieldx`).
-- Noclip AZERTY fonctionnel (Z/S/Q/D + Q/E vertical, Shift accélération).
-- Freecam avec mouvement caméra.
-- TP waypoint.
-- Gestion météo / heure globale.
-- Spawn véhicule.
-- Give weapon.
-- Revive / freeze.
+### 1) Anticheat ShieldX
+- Détections client + serveur (godmode, invisibilité, speedhack, explosions, armes/veh blacklists, rapid fire, etc.).
+- Logs webhook Discord.
+- Menu staff (noclip, freecam, météo, heure, revive/freeze, spawn véhicule).
+
+### 2) PulseLite RP (nouveau)
+- **Profil joueur persistant** (KVP): cash, banque, besoins, job, inventaire, dernière position.
+- **Économie optimisée**: opérations atomiques, limitations de transfert, paie périodique selon le job.
+- **Jobs/grades** configurables dans `shared/rp_config.lua`.
+- **Inventaire poids** + objets utilisables (`/useitem water`, `bread`, `bandage`, `repairkit`).
+- **HUD RP minimal** (cash, banque, job, faim/soif/stress) avec `/hudrp`.
+- **Commandes utiles**:
+  - `/rpstats`
+  - `/pay [id] [montant]`
+  - `/setjob [id] [job] [grade]` (ACE admin)
+
+## Architecture
+- `shared/config.lua` -> anticheat + staff
+- `shared/rp_config.lua` -> réglages RP (jobs, items, limites)
+- `server/rp_core.lua` -> logique serveur RP (save, paie, transfert, inventaire)
+- `client/rp_core.lua` -> HUD + sync besoins + usage objets
 
 ## Installation
-1. Copiez ce dossier dans vos resources (ex: `resources/[admin]/shieldx`).
-2. Ajoutez `ensure shieldx` dans votre `server.cfg`.
-3. Configurez `shared/config.lua` :
-   - `StaffIdentifiers`
-   - blacklists
-   - permissions ACE
-   - webhooks Discord
-
-## Permission recommandée (server.cfg)
+1. Placez la ressource dans vos resources.
+2. Ajoutez dans `server.cfg`:
 
 ```cfg
+ensure anticheat-byTekaz
 add_ace group.admin shieldx.menu allow
-add_principal identifier.license:VOTRE_LICENSE group.admin
 ```
 
-## Notes
-- Cette base est volontairement modulaire pour que vous puissiez la connecter à ESX/QBCore.
-- Pour des actions SQL (give money/items/jobs), ajoutez vos callbacks serveur framework.
-- Testez chaque détection avant de passer en production pour éviter les faux positifs.
+3. Éditez `shared/config.lua` et `shared/rp_config.lua` selon votre ville.
+
+## Conseils optimisation
+- L'écriture disque est **batchée** via `Dirty` + intervalle `SaveIntervalMs`.
+- Les syncs serveur sont intervalées (besoins/position toutes les 15s).
+- L'usage des state bags peut être coupé (`UseStateBags = false`) si vous avez déjà un système custom.
